@@ -11,7 +11,7 @@ _CURR_TIME_NS = time.time_ns()
 _DATA_SOURCE_ID = "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
 _DATASET_ID = f"{_START_DATE}-{_END_DATE}"
 _TOKEN = "ya29.a0Ae4lvC34Tel0ez6li8trnLxnYbTpvKg-5hQd8Z-XSc-wkzPQmf6WVVeS6gLntO5lThHJQmnp7seoYIUalOfLClljw6Nh" \
-         "-c4FMo4IQRu4CzQ2YotlRUtXBVPkXorTYLBUpg66xooJsfxgK2lrsiQqMjxKSQbongcigng "
+         "-c4FMo4IQRu4CzQ2YotlRUtXBVPkXorTYLBUpg66xooJsfxgK2lrsiQqMjxKSQbongcigng"
 
 def google_request(access_token=_TOKEN, dataSourceId=_DATA_SOURCE_ID, datasetId=_DATASET_ID):
     url = f'https://www.googleapis.com/fitness/v1/users/me/dataSources/{dataSourceId}/datasets/{datasetId}'
