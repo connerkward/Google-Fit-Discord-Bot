@@ -24,16 +24,16 @@ def request(access_token, dataSourceId=_DATA_SOURCE_ID, start=_CURR_DAY_START_NS
     """
     # Format date range string
     datasetId = f"{start}-{end}"
-    #print(datasetId)
+    print(datasetId)
     url = f'https://www.googleapis.com/fitness/v1/users/me/dataSources/{dataSourceId}/datasets/{datasetId}'
     if sources:
         url = "https://www.googleapis.com/fitness/v1/users/me/dataSources"
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {access_token}"}
     result = requests.get(url, headers=headers)
 
-    #print(result.url)
+    print(result.url)
     db = json.loads(result.text)
-    #print(json.dumps(json.loads(result.text), indent=2))
+    print(json.dumps(json.loads(result.text), indent=2))
 
     #with open("date.txt", "w") as f:
     #    json.dump(json.dumps(json.loads(result.text), indent=1), f)
@@ -42,9 +42,9 @@ def request(access_token, dataSourceId=_DATA_SOURCE_ID, start=_CURR_DAY_START_NS
     for i in range(0, len(db["point"])):
         #print(int(db["point"][i]["startTimeNanos"])/1000000000)
         this = int(db["point"][i]["startTimeNanos"])/1000000000
-        if this in range(int(int(start)/1000000000), int(int(end)/1000000000)) and int(db["point"][i]["value"][0]["fpVal"]) > 50:
+        #if this in range(int(int(start)/1000000000), int(int(end)/1000000000)) and int(db["point"][i]["value"][0]["fpVal"]) > 50:
             #print(this)
-            above_1k.append(db["point"][i]["value"][0]["fpVal"])
+        above_1k.append(db["point"][i]["value"][0]["fpVal"])
             #print(above_1k)
-    #print(int(sum(above_1k)))
+    print(int(sum(above_1k)))
     return sum(above_1k)
