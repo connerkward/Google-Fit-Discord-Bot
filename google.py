@@ -4,41 +4,47 @@ import requests
 import json
 
 # Default Info
-# Date Range of Results
-_START_DATE = 1577836800000000000
-_END_DATE = 1585699200000000000
-# Current Date
-_CURR_DATE = datetime.date.today().strftime("%d/%m/%Y")
-_CURR_TIME_NS = time.time_ns()
-# Google Data
+# Default Date Range of Results
+_CURR_DATE = datetime.datetime.today()
+_CURR_DAY_START = _CURR_DATE.replace(hour=0, minute=0, second=0, microsecond=0)
+_CURR_DAY_END = _CURR_DAY_START + datetime.timedelta(1)
+_CURR_DAY_START_NS = int(_CURR_DAY_START.timestamp()) * 1000000000
+_CURR_DAY_END_NS = int(_CURR_DAY_END.timestamp()) * 1000000000
+# Default Google Data Location
 _DATA_SOURCE_ID = "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
-_DATASET_ID = f"{_START_DATE}-{_END_DATE}"
-# Google Access Token
-_TOKEN = "ya29.a0Ae4lvC34Tel0ez6li8trnLxnYbTpvKg-5hQd8Z-XSc-wkzPQmf6WVVeS6gLntO5lThHJQmnp7seoYIUalOfLClljw6Nh" \
-         "-c4FMo4IQRu4CzQ2YotlRUtXBVPkXorTYLBUpg66xooJsfxgK2lrsiQqMjxKSQbongcigng"
 
-def google_request(access_token=_TOKEN, dataSourceId=_DATA_SOURCE_ID, datasetId=_DATASET_ID):
+
+def request(access_token, dataSourceId=_DATA_SOURCE_ID, start=_CURR_DAY_START_NS,end=_CURR_DAY_END_NS,sources=False):
     """
     Google Request for certain Data Source over time
     :param access_token: From Google Oath2
-    :param dataSourceId: Location and Name of 
+    :param dataSourceId: Location and Name of
     :param datasetId: in form f"{_START_DATE}-{_END_DATE}"
-    :return: (not currently working sends form of list)
+    :return: Float of estimated calories burned, working for input activities, unclear about step generated
     """
+    # Format date range string
+    datasetId = f"{start}-{end}"
+    #print(datasetId)
     url = f'https://www.googleapis.com/fitness/v1/users/me/dataSources/{dataSourceId}/datasets/{datasetId}'
+    if sources:
+        url = "https://www.googleapis.com/fitness/v1/users/me/dataSources"
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {access_token}"}
     result = requests.get(url, headers=headers)
 
-    print(result.url)
+    #print(result.url)
     db = json.loads(result.text)
-    print(json.dumps(json.loads(result.text), indent=2))
+    #print(json.dumps(json.loads(result.text), indent=2))
 
-    with open("date.txt", "w") as f:
-        json.dump(json.dumps(json.loads(result.text), indent=1), f)
+    #with open("date.txt", "w") as f:
+    #    json.dump(json.dumps(json.loads(result.text), indent=1), f)
+    #print(db)
     above_1k = list()
     for i in range(0, len(db["point"])):
-        if db["point"][i]["value"][0]["fpVal"] > 1000:
+        #print(int(db["point"][i]["startTimeNanos"])/1000000000)
+        this = int(db["point"][i]["startTimeNanos"])/1000000000
+        if this in range(int(int(start)/1000000000), int(int(end)/1000000000)) and int(db["point"][i]["value"][0]["fpVal"]) > 50:
+            #print(this)
             above_1k.append(db["point"][i]["value"][0]["fpVal"])
-    print(int(sum(above_1k)))
-
-    return above_1k
+            #print(above_1k)
+    #print(int(sum(above_1k)))
+    return sum(above_1k)

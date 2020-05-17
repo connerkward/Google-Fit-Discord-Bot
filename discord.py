@@ -1,7 +1,7 @@
 import requests
 import json
 
-def discord_send(data, webhook_url):
+def send(data, webhook_url):
     """
     Used to send data to a discord webhook url
     :param data: dictionary of REST JSON. Key "contents" for message text
