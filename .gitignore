@@ -1,3 +1,5 @@
 token.txt
 /venv/
 g_auth.txt
+.idea
+__pycache__
