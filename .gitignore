@@ -3,3 +3,4 @@ token.txt
 g_auth.txt
 .idea
 __pycache__
+.DS_Store
