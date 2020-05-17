@@ -2,9 +2,12 @@ from flask import Flask, url_for, session
 from flask import render_template, redirect
 from authlib.integrations.flask_client import OAuth
 import google
-import discord
+import webhook_discord
 import datetime
 
+# Discord Config
+web_hook = "https://discordapp.com/api/webhooks/708841556571848725" \
+           "/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q "
 # Date Time Config
 _CURR_DATE = datetime.datetime.today()
 _CURR_DAY_START = _CURR_DATE.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -58,14 +61,13 @@ def auth():
     session['user'] = user
 
     # Request google for json of calories
-    g_response = google.request(access_token=token["access_token"], dataSourceId=sourceid, start=_CURR_DAY_START_NS,end=_CURR_DAY_END_NS)
-
+    g_response = google.request(access_token=token["access_token"], dataSourceId=sourceid, start=_CURR_DAY_START_NS,
+                                end=_CURR_DAY_END_NS)
     # Send to Discord
-    web_hook = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
-    username = user["name"]
-    data = {"content": f"{username} has burnt {str(int(g_response))} calories today!"}
-    discord.send(data=data, webhook_url=web_hook)
+    data = {"content": f"{user['name']} has burnt {str(int(g_response))} calories today!"}
+    webhook_discord.send(data=data, webhook_url=web_hook)
 
+    # return to homepage / root directory
     return redirect('/')
 
 @app.route('/logout')
