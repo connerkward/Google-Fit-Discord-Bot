@@ -4,7 +4,7 @@ import random
 import time
 
 act = discord.Activity(name="Always ready to serve.")
-TOKEN = "NzExNjM0MjM4NzM0MzM2MDMx.XsHkhQ.CbdWWf9gQgqoZ2_qx0KFXDM0LBU"
+TOKEN = None
 client = discord.Client()
 bot = commands.Bot(command_prefix='!', activity=act)
 
