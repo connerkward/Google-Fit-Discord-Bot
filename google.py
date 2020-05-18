@@ -35,8 +35,8 @@ def request(access_token, dataSourceId=_DATA_SOURCE_ID, start=_CURR_DAY_START_NS
     db = json.loads(result.text)
     print(json.dumps(json.loads(result.text), indent=2))
 
-    #with open("date.txt", "w") as f:
-    #    json.dump(json.dumps(json.loads(result.text), indent=1), f)
+    with open("date.txt", "w") as f:
+        json.dump(json.dumps(json.loads(result.text), indent=1), f)
     #print(db)
     above_1k = list()
     for i in range(0, len(db["point"])):
@@ -48,3 +48,6 @@ def request(access_token, dataSourceId=_DATA_SOURCE_ID, start=_CURR_DAY_START_NS
             #print(above_1k)
     print(int(sum(above_1k)))
     return sum(above_1k)
+
+if __name__ == "__main__":
+    request(access_token="ya29.a0AfH6SMA0Dy9gCZF3TdzsTRSwkpAyn3dDxpA9RSnNQ7ZnyfjhF96bBwF7YQWku3zgVfzPD_PlxFC15N1AjWO2hoDZIaJUL_9ykOokoI2vbjgGtwNqmnNHxaJnOq4X_3tTAJpZ08dZU3-2R7b9OUU09yL9uPCTfR6aSyM")
