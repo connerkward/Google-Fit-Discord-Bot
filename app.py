@@ -6,6 +6,7 @@ import webhook
 import datetime
 import threading
 import starbot
+import _sqlite3
 
 # Discord Config
 web_hook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
@@ -69,13 +70,19 @@ def auth():
     # Start Flask user 'Session'
     session['user'] = user
 
+
+
     # Request google for json of calories
     g_response = google.request(access_token=token["access_token"], dataSourceId=sourceid, start=_CURR_DAY_START_NS,
                                 end=_CURR_DAY_END_NS)
-    print(user['name'])
+    # STORE IN DATABASE, user, response
+
+    # STORE IN DATABASE
+
+    #print(user['name'])
     # Send to Discord
-    data = {"content": f"{user['name']} has burnt {str(int(g_response))} calories today!"}
-    webhook.send(data=data, webhook_url=web_hook_url)
+    # data = {"content": f"{user['name']} has burnt {str(int(g_response))} calories today!"}
+    #webhook.send(data=data, webhook_url=web_hook_url)
 
     # return to homepage / root directory
     return redirect('/')
