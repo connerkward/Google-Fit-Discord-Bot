@@ -4,6 +4,8 @@ from authlib.integrations.flask_client import OAuth
 import google
 import webhook_discord
 import datetime
+import threading
+import starbot
 
 # Discord Config
 web_hook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
@@ -15,8 +17,8 @@ _CURR_DAY_START_NS = int(_CURR_DAY_START.timestamp()) * 1000000000
 _CURR_DAY_END_NS = int(_CURR_DAY_END.timestamp()) * 1000000000
 
 # Data Source ID Config
-#sourceid = "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
-#sourceid ='derived:com.google.calories.expended:com.google.android.gms:from_activities'
+# sourceid = "derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended"
+# sourceid ='derived:com.google.calories.expended:com.google.android.gms:from_activities'
 sourceid = 'derived:com.google.calories.expended:com.google.android.gms:platform_calories_expended'
 
 # Flask Config Stuff
@@ -35,6 +37,14 @@ oauth.register(
         # Scope as defined in google developer consol
     }
 )
+
+
+# Threading initialization might go here
+# One thread for the listening discord bot
+webhook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
+content1 = {'content': 'Hello from bot1'}
+t3 = threading.Thread(target=starbot.run())
+t3.start()
 
 # Flask Routes
 @app.route('/')
@@ -70,8 +80,16 @@ def auth():
     # return to homepage / root directory
     return redirect('/')
 
+
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect('/')
 
+
+if __name__ == "__main__()":
+    print("hello")
+    webhook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
+    content1 = {'content': 'Hello from bot1'}
+    t3 = threading.Thread(target=starbot.run())
+    t3.start()
