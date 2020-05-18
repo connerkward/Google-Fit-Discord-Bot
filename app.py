@@ -42,7 +42,6 @@ oauth.register(
 
 # Threading initialization might go here
 # One thread for the listening discord bot
-webhook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
 content1 = {'content': 'Hello from bot1'}
 t3 = threading.Thread(target=starbot.run())
 t3.start()
@@ -96,7 +95,6 @@ def logout():
 
 if __name__ == "__main__()":
     print("hello")
-    webhook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKbS6y6WRf5xCUKB4fIo7v0L2VBzemRa6pGkoeBYwzLgd9IhQ75cUeqGkLC6q"
     content1 = {'content': 'Hello from bot1'}
     t3 = threading.Thread(target=starbot.run())
     t3.start()
