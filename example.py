@@ -1,6 +1,6 @@
 import threading
 import time
-import webhook_discord
+import webhook
 
 
 def countdown(count):
@@ -34,8 +34,8 @@ webhook_url = "https://discordapp.com/api/webhooks/708841556571848725/zJoGnm5jKb
 content1 = {'content':'Test 1'}
 content2 = {'content': 'Test2'}
 
-t3 = threading.Thread(target=webhook_discord.send, args=(content1, webhook_url,))
-t4 = threading.Thread(target=webhook_discord.send, args=(content2, webhook_url,))
+t3 = threading.Thread(target=webhook.send, args=(content1, webhook_url,))
+t4 = threading.Thread(target=webhook.send, args=(content2, webhook_url,))
 
 t3.start()
 t4.start()

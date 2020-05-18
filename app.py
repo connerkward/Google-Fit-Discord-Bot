@@ -2,7 +2,7 @@ from flask import Flask, url_for, session
 from flask import render_template, redirect
 from authlib.integrations.flask_client import OAuth
 import google
-import webhook_discord
+import webhook
 import datetime
 import threading
 import starbot
@@ -75,7 +75,7 @@ def auth():
     print(user['name'])
     # Send to Discord
     data = {"content": f"{user['name']} has burnt {str(int(g_response))} calories today!"}
-    webhook_discord.send(data=data, webhook_url=web_hook_url)
+    webhook.send(data=data, webhook_url=web_hook_url)
 
     # return to homepage / root directory
     return redirect('/')
