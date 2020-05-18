@@ -1,9 +1,8 @@
 import discord
 
-TOKEN = None
+TOKEN = "fukin ricky cant click a link"
 
 client = discord.Client()
-
 
 def run():
     client.run(TOKEN)
